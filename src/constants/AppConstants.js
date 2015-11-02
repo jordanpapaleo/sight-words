@@ -1,0 +1,5 @@
+export default {
+  CHANGE_SET: 'CHANGE_SET',
+  NEXT_WORD: 'NEXT_WORD',
+  PREVIOUS_WORD: 'PREVIOUS_WORD'
+}

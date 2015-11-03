@@ -2,22 +2,18 @@ var AppConstants = require('../constants/AppConstants')
 var AppDispatcher = require('../dispatchers/AppDispatcher')
 
 var AppActions = {
-  changeSet (level) {
+  nextWord (set, index) {
     AppDispatcher.handleViewAction({
-      level,
-      actionType: AppConstants.CHANGE_SET
+      set,
+      index,
+      type: AppConstants.NEXT_WORD
     })
   },
-  nextWord (index) {
+  previousWord (set, index) {
     AppDispatcher.handleViewAction({
+      set,
       index,
-      actionType: AppConstants.NEXT_WORD
-    })
-  },
-  previousWord (index) {
-    AppDispatcher.handleViewAction({
-      index,
-      actionType: AppConstants.PREVIOUS_WORD
+      type: AppConstants.PREVIOUS_WORD
     })
   }
 }

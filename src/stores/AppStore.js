@@ -1,72 +1,70 @@
-import AppDispatcher from '../dispatchers/AppDispatcher'
 import AppConstants from '../constants/AppConstants'
-import _ from 'lodash'
+import Store from './Store.js'
 
-var assign = require('react/lib/Object.assign')
-var EventEmitter = require('events').EventEmitter
+class AppStore extends Store {
+  constructor () {
+    super()
 
-const CHANGE_EVENT = 'change'
-const _allSets = [
-  {
-    setId: 0,
-    level: 1,
-    words: ['A', 'All', 'Day']
-    // words: ['the', 'you', 'on', 'I', 'of', 'that', 'are', 'at', 'and', 'it', 'as', 'be', 'to', 'he', 'with', 'this', 'in', 'was', 'his', 'have', 'is', 'for', 'they', 'from']
-  },
-  {
-    setId: 1,
-    level: 2,
-    words: ['or', 'not', 'your', 'each', 'one', 'what', 'can', 'which', 'had', 'all', 'said', 'she', 'by', 'were', 'there', 'do', 'word', 'we', 'use', 'how', 'buy', 'when', 'an', 'their']
+    this.subscribe(() => this._registerToActions.bind(this))
+    this.state = {
+      _allSets: [
+        {
+          setId: 0,
+          level: 1,
+          words: ['A', 'All', 'At']
+          // words: ['the', 'you', 'on', 'I', 'of', 'that', 'are', 'at', 'and', 'it', 'as', 'be', 'to', 'he', 'with', 'this', 'in', 'was', 'his', 'have', 'is', 'for', 'they', 'from']
+        },
+        {
+          setId: 1,
+          level: 2,
+          words: ['B', 'Ball', 'Bat']
+          // words: ['or', 'not', 'your', 'each', 'one', 'what', 'can', 'which', 'had', 'all', 'said', 'she', 'by', 'were', 'there', 'do', 'word', 'we', 'use', 'how', 'buy', 'when', 'an', 'their']
+        }
+      ]
+    }
+
+    this.getWord = this.getWord.bind(this)
   }
-]
 
-var AppStore = assign(EventEmitter.prototype, {
-  emitChange () {
-    this.emit(CHANGE_EVENT)
-  },
-  addChangeListener (callback) {
-    this.on(CHANGE_EVENT, callback)
-  },
-  removeChangeListener (callback) {
-    this.removeListener(CHANGE_EVENT, callback)
-  },
   getWord (set, i) {
-    console.log('i', i)
-    // Advance set
-    if (i === _allSets[set].words.length) {
-      if (set < _allSets.length - 1) {
-        set++
-        i = 0
-      }
-    }
+    this.currentWord = this.state._allSets[set].words[i]
+    return this.currentWord;
+  }
 
-    // Go back set
+  _registerToActions (dispatch) {
+    let { set, index, type } = dispatch.action
+    const { _allSets } = this.state
 
-
-    return {
-      i: i,
-      set: set,
-      word: _allSets[set].words[i]
-    }
-  },
-  dispatcherIndex: AppDispatcher.register(function (payload) {
-    var action = payload.action
-
-    switch (action.actionType) {
-      case AppConstants.CHANGE_SET:
-        _getSet(payload.action.level)
+    switch (type) {
+      case AppConstants.PREVIOUS_WORD:
+        if (index > 0) {
+          index--
+        } else if (index === 0 && set !== 0) {
+          set--
+          index = _allSets[set].words.length - 1
+        }
         break
       case AppConstants.NEXT_WORD:
-        _nextWord(payload.action.index)
+        if (index === _allSets[set].words.length - 1) {
+          if (set < _allSets.length - 1) {
+            set++
+            index = 0
+          }
+        } else {
+          index++
+        }
         break
-      case AppConstants.PREVIOUS_WORD:
-        _previousWord(payload.action.index)
+      case AppConstants.CURRENT_WORD:
+        // use the provided set and index
+        break
+      default:
         break
     }
 
-    AppStore.emitChange()
-    return true
-  })
-})
+    const activeWord = this.getWord(set, index)
 
-export default AppStore
+    this.emitChange({set, index, activeWord})
+  }
+}
+
+export default new AppStore()

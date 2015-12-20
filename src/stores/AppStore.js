@@ -1,5 +1,5 @@
-import AppConstants from '../constants/AppConstants'
-import Store from './Store.js'
+import AppConstants from 'constants/AppConstants'
+import Store from 'stores/Store.js'
 
 class AppStore extends Store {
   constructor () {

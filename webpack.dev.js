@@ -3,6 +3,7 @@ var webpack = require('webpack')
 var autoprefixer = require('autoprefixer-core')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var path = require('path')
 
 /**
  * Make webpack config
@@ -30,7 +31,9 @@ module.exports = function makeWebpackConfig (options) {
    * Reference: http://webpack.github.io/docs/configuration.html
    * This is the object where all configuration gets set
    */
-  var config = {}
+  var config = {
+    // context: __dirname//path.join(root, 'src'),
+  }
 
   /**
    * Entry
@@ -167,40 +170,6 @@ module.exports = function makeWebpackConfig (options) {
   // Add jsxLoader to the loader list
   config.module.loaders.push(jsxLoader)
 
-
-  // CSS/POSTCSS LOADER
-  /* Reference: https://github.com/webpack/css-loader
-  Allow loading css through js */
-
-  /*var cssLoader = {
-    test: /\.css$/,
-    Reference: https://github.com/webpack/extract-text-webpack-plugin
-    Extract css files in production builds
-
-    Reference: https://github.com/webpack/style-loader
-    Use style-loader in development for hot-loading
-    loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
-  }
-
-  // Skip loading css in test mode
-  if (TEST) {
-    // Reference: https://github.com/webpack/null-loader
-    // Return an empty module
-    cssLoader.loader = 'null'
-  }
-
-  // Add cssLoader to the loader list
-  config.module.loaders.push(cssLoader)
-
-
-  config.postcss = function postcss () {
-    return [
-      autoprefixer({
-        browsers: ['last 2 versions']
-      })
-    ]
-  }*/
-
   /**
    * Resolve
    * Reference: http://webpack.github.io/docs/configuration.html#resolve
@@ -210,7 +179,10 @@ module.exports = function makeWebpackConfig (options) {
     // Reference: http://webpack.github.io/docs/configuration.html#resolve-extensions
     // Allows you to require files that end with .jsx without typing it
     // For example, if you have file.jsx, you can type: require('./file')
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    root: [
+      path.join(__dirname, 'src')
+    ]
   }
 
   /**

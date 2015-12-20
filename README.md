@@ -18,3 +18,10 @@
 - https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
+## TODO
+- Tap to hear the word
+- Audio listen to hear the user say the word
+- Touch interactions
+- Create cards for words
+  - Wrap the View in a card

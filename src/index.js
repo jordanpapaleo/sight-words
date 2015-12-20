@@ -1,12 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './assets/font/css/iconic-bootstrap.css'
-import './main.less'
-// import './ResponsiveVoice.js'
+import 'assets/font/css/iconic-bootstrap.css'
+import 'main.less'
 
 import debug from 'debug'
 import React from 'react'
-import App from './components/App.js'
+import { Router } from 'react-router';
+import { createHistory } from 'history'
+import { render } from 'react-dom'
+import routes from 'Routes'
 
+const history = createHistory();
 const log = debug('application:bootstrap')
 
 if (process.env.NODE_ENV !== 'production') {
@@ -23,6 +26,6 @@ document.body.appendChild(applicationNode)
 
 log('mounting application')
 
-React.render(<App />, applicationNode, () => {
+render(<Router history={ history } routes={ routes } />, applicationNode, () => {
   log('finished mounting application')
 })

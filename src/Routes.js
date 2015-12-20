@@ -1,7 +1,10 @@
-import { Router, Route, Link } from 'react-router'
+import React from 'react'
+import { Router, Route } from 'react-router'
+import App from 'components/App.js'
+import Words from 'components/Words'
 
-const router = (
-
-);
-
-export default router
+export default (
+  <Route path="/" component={ App }>
+    <Route path="words" component={ Words } />
+  </Route>
+)

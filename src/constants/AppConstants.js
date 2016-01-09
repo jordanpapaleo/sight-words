@@ -1,0 +1,5 @@
+export default {
+  CURRENT_WORD: 'CURRENT_WORD',
+  NEXT_WORD: 'NEXT_WORD',
+  PREVIOUS_WORD: 'PREVIOUS_WORD'
+};

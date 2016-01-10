@@ -1,25 +1,25 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react'
 
 export default class Settings extends Component {
-  static get displayName() {
-    return '';
+  static get displayName () {
+    return ''
   }
 
-  static get propTypes() {
-    return {};
+  static get propTypes () {
+    return {}
   }
 
-  static get defaultProps() {
-    return {};
+  static get defaultProps () {
+    return {}
   }
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
   }
 
-  render() {
+  render () {
     return (
       <div>Settings</div>
-    );
+    )
   }
 }

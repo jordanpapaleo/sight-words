@@ -1,2 +1,2 @@
-import Words from './Words';
-export default Words;
+import Words from './Words'
+export default Words

@@ -1,9 +1,9 @@
 // Modules
-var webpack = require('webpack');
-var autoprefixer = require('autoprefixer-core');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var path = require('path');
+var webpack = require('webpack')
+// var autoprefixer = require('autoprefixer-core')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var path = require('path')
 
 /**
  * Make webpack config
@@ -12,19 +12,19 @@ var path = require('path');
  * @param {boolean} options.BUILD Generate a build config
  * @returns {object} Webpack configuration object
  */
-module.exports = function makeWebpackConfig(options) {
+module.exports = function makeWebpackConfig (options) {
   /**
    * Environment type
    * BUILD is for generating minified builds
    * TEST is for generating test builds
    */
-  var BUILD = !!options.BUILD;
-  var TEST = !!options.TEST;
+  var BUILD = !!options.BUILD
+  var TEST = !!options.TEST
 
   /**
    * Environment values
    */
-  var NODE_ENV = process.env.NODE_ENV || 'development';
+  var NODE_ENV = process.env.NODE_ENV || 'development'
 
   /**
    * Config
@@ -33,7 +33,7 @@ module.exports = function makeWebpackConfig(options) {
    */
   var config = {
     // context: __dirname//path.join(root, 'src'),
-  };
+  }
 
   /**
    * Entry
@@ -41,12 +41,12 @@ module.exports = function makeWebpackConfig(options) {
    * Should be an empty object if it's generating a test build
    * Karma will set this when it's a test build
    */
-  if(TEST) {
-    config.entry = {};
+  if (TEST) {
+    config.entry = {}
   } else {
     config.entry = {
       app: './src'
-    };
+    }
   }
 
   /**
@@ -55,12 +55,10 @@ module.exports = function makeWebpackConfig(options) {
    * Should be an empty object if it's generating a test build
    * Karma will handle setting it up for you when it's a test build
    */
-  if (TEST) {
-    config.output = {};
-  } else {
+
     config.output = {
       // Absolute output directory
-      path: __dirname + '/public',
+      path: path.resolve(__dirname, 'dist'),
 
       // Output path from the view of the page
       // Uses webpack-dev-server in development
@@ -73,7 +71,6 @@ module.exports = function makeWebpackConfig(options) {
       // Filename for non-entry points
       // Only adds hash in build mode
       chunkFilename: BUILD ? '[name].[hash].js' : '[name].bundle.js'
-    };
   }
 
   /**
@@ -81,18 +78,18 @@ module.exports = function makeWebpackConfig(options) {
    * Reference: http://webpack.github.io/docs/configuration.html#devtool
    * Type of sourcemap to use per build type
    */
-  if(TEST) {
-    config.devtool = 'inline-source-map';
-  } else if(BUILD) {
-    config.devtool = 'source-map';
+  if (TEST) {
+    config.devtool = 'inline-source-map'
+  } else if (BUILD) {
+    config.devtool = 'source-map'
   } else {
-    config.devtool = 'eval';
+    config.devtool = 'eval'
   }
 
   config.externals = {
     'TweenLite': 'TweenLite',
     'responsiveVoice': 'responsiveVoice'
-  };
+  }
 
   /**
    * Loaders
@@ -157,17 +154,17 @@ module.exports = function makeWebpackConfig(options) {
     test: /\.jsx$/,
     loader: 'babel?optional[]=runtime',
     exclude: /node_modules/
-  };
+  }
 
   // Add react-hot-loader when not in build or test mode
   if (!BUILD && !TEST) {
     // Reference: https://github.com/gaearon/react-hot-loader
     // This will reload react components without refresh
-    jsxLoader.loader = 'react-hot!' + jsxLoader.loader;
+    jsxLoader.loader = 'react-hot!' + jsxLoader.loader
   }
 
   // Add jsxLoader to the loader list
-  config.module.loaders.push(jsxLoader);
+  config.module.loaders.push(jsxLoader)
 
   /**
    * Resolve
@@ -182,7 +179,7 @@ module.exports = function makeWebpackConfig(options) {
     root: [
       path.join(__dirname, 'src')
     ]
-  };
+  }
 
   /**
    * Plugins
@@ -206,7 +203,7 @@ module.exports = function makeWebpackConfig(options) {
   ]
 
   // Skip rendering index.html in test mode
-  if(!TEST) {
+  if (!TEST) {
     // Reference: https://github.com/ampedandwired/html-webpack-plugin
     // Render index.html
     config.plugins.push(
@@ -214,11 +211,11 @@ module.exports = function makeWebpackConfig(options) {
         title: 'Web application',
         minify: BUILD
       })
-    );
+    )
   }
 
   // Add build specific plugins
-  if(BUILD) {
+  if (BUILD) {
     config.plugins.push(
       // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
       // Only emit files when there are no errors
@@ -247,7 +244,7 @@ module.exports = function makeWebpackConfig(options) {
       colors: true,
       chunk: false
     }
-  };
+  }
 
-  return config;
+  return config
 }
